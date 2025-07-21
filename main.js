@@ -177,7 +177,7 @@ class Field {
 }
 
 // Game Mode ON
-const newGame = new Field(Field.createField(20, 4, 4));
+const newGame = new Field(Field.createField(35, 10, 10));
 
 newGame.runner();
 
