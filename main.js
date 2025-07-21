@@ -6,10 +6,10 @@ import clear from "clear-screen";
 const prompt = promptSync({ sigint: true });
 
 
-const hat = "^";
-const hole = "O";
-const fieldCharacter = "░";
-const pathCharacter = "*";
+export const hat = "^";
+export const hole = "O";
+export const fieldCharacter = "░";
+export const pathCharacter = "*";
 
 class Field {
 
@@ -17,14 +17,14 @@ class Field {
 		this.field = field;
 
 		// Replace with your own code //
-		// Set the home position at (0, 0) before the game starts
-		this.positionRow = 0;
-		this.positionCol = 0;
+		this.positionRow = null;
+		this.positionCol = null;
 		this.gameOver = false
 	}
 
-	static createField(holes,row,column) { 
+	static createField(holesPercent,row,column) { 
 	//create a field
+	const holes = Math.ceil(holesPercent/100 * row * column);
 	const field = [];
 	for (let i=0; i < row; i++) {
 	const r = []
@@ -33,13 +33,11 @@ class Field {
 	}
 	field.push(r)
 }
-	//console.log(field)
 
 
 	// place holes randomly
 	let placeHoles = holes
-	while (placeHoles) {
-		//console.log("place hole")
+	while (placeHoles > 0) {
 		const rowRandom = Math.floor(Math.random() *field.length);
 		const columnRandom = Math.floor(Math.random() *field[0].length);
 		if (field[rowRandom][columnRandom] === fieldCharacter) {
@@ -51,15 +49,30 @@ class Field {
 	//place hat randomly
 	let placeHat = false;
 	while (!placeHat) {
-		//console.log("place hat")
 		const rowRandom = Math.floor(Math.random() *field.length);
 		const columnRandom = Math.floor(Math.random() *field[0].length);
 		if (field[rowRandom][columnRandom] === fieldCharacter) {
 			field[rowRandom][columnRandom] = hat;
+			placeHat = true;
 		}
-		placeHat = true;
+		
 	} 
-console.log(field)
+
+	/*		let placeActor = false;
+	while (!placeActor) {
+		const rowRandom = Math.floor(Math.random() *field.length);
+		const columnRandom = Math.floor(Math.random() *field[0].length);
+		if (field[rowRandom][columnRandom] === fieldCharacter) {
+			field[rowRandom][columnRandom] = pathCharacter;
+			//this.positionRow = rowRandom;
+			//this.positionCol = columnRandom;
+			placeActor = true;
+		}
+
+	} */
+
+
+//console.log(field)
 return field
 }
 
@@ -67,7 +80,7 @@ return field
 	print() {
 		clear();
 		for (let row of this.field) {
-			console.log(row.join()) 
+			console.log(row.join(" ")) 
 		}
 
 	}
@@ -140,7 +153,7 @@ return field
 	}
 
 	createActor() {
-	let placeActor = false;
+		let placeActor = false;
 	while (!placeActor) {
 		const rowRandom = Math.floor(Math.random() *this.field.length);
 		const columnRandom = Math.floor(Math.random() *this.field[0].length);
@@ -148,18 +161,26 @@ return field
 			this.field[rowRandom][columnRandom] = pathCharacter;
 			this.positionRow = rowRandom;
 			this.positionCol = columnRandom;
+			placeActor = true;
 		}
-		placeActor = true;
 
 	}
 	}
+
+	checkEdge() {
+		if (this.positionRow === 0 || this.positionCol === 0 || this.positionRow === this.field.length - 1 || this.positionCol === this.field[0].length - 1) {
+			console.log("Warning: You are at the edge of the field. Please be careful!");
+		}
+	}
+
 
 	runner() {
 		this.createActor()
 		while (!this.gameOver) {
 			this.print()
-			const way = prompt("Which way?") // user input: u , way = 'u'
-			this.move(way) // move("u")
+			this.checkEdge()
+			const way = prompt("Which way?")
+			this.move(way)
 			this.checkCondition()
 			this.update()
 		}
@@ -168,16 +189,43 @@ return field
 }
 
 // Game Mode ON
-// Remark: Code example below should be deleted and use your own code.
+const newGame = new Field(Field.createField(20,4,4));
 
-// const newGame = new Field(Field.createField(2,3,3));
+newGame.runner()
 
-// newGame.runner()
+// let holeCountWrong = 0;
+// let actorCountWrong = 0;
+// let hatCountWrong = 0;
+//  for (let i = 0; i < 10000; i++) {
+// 	const field = Field.createField(20,3,3)
+// 	//console.log(field) 
+// 	let holeCount = 0;
+// 	let actorCount = 0;
+// 	let hatCount = 0;
+// 	for (let row of field) {
+// 		for (let cell of row) {
+// 			if (cell === hole) {
+// 				holeCount++;
+// 			} else if (cell === pathCharacter) {
+// 				actorCount++;
+// 			} else if (cell === hat) {
+// 				hatCount++;
+// 			}
 
+// 		}
+// 	}
 
-Field.createField(2,3,3)
-Field.createField(2,3,3)
-Field.createField(2,3,3)
-Field.createField(2,3,3)
-Field.createField(2,3,3)
-Field.createField(2,3,3)
+// 	if (holeCount !== 2) {
+// 		holeCountWrong++;
+// 	}
+// 	if (actorCount !== 1) {
+// 		actorCountWrong++;
+// 	}
+// 	if (hatCount !== 1) {
+// 		hatCountWrong++;
+// 	}
+
+// }
+// 	console.log(`Hole count wrong: ${holeCountWrong}`);
+// 	console.log(`Actor count wrong: ${actorCountWrong}`);	
+// 	console.log(`Hat count wrong: ${hatCountWrong}`);
