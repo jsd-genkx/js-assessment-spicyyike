@@ -131,10 +131,14 @@
 
 ### Thinking Process
 
-1. // step 1
-2. // step 2
-3. // ...
-4. // step n
+1. อ่านโจทย์ในไฟล์readme
+2. อ่านโจทย์ละยัง งงๆ เลยไปดูinstruction ใน codecademy เพิ่มเติม
+3. พอเริ่มเห็๋นภาพเลยเขียน flowchart ออกมา please see file flowchart.png
+4. แล้วหลังจากนั้นก็ลองเขียนโค้ดวาง function method ต่างๆตามที่เขียนใน flowchart
+5. ทีนี้ไปเขียนไปสักพัก ก็จะมีการสลับลำดับการทำงานของเกม เริ่มมีการปรับเปลี่ยนcode ไม่เป็นไปตาม flowchart
+6. สามารถดู วิธีการทำงานของเกมได้ในไฟล์ main.js ตรง runner() จะเห็นได้ว่ามีการนำ print() ขึ้นมาอยู่ข้างบนpromptให้มันตรงกับในตัวอย่างในcodecademy ที่ 1. print() ตารางก่อน จากนั้นจึงถาม prompt (ถ้าในflowchart จะprint ทีหลัง prompt)
+7. อีกสิ่งหนึ่งที่มีการเพิ่มมาจาก flowchart คือ การที่มีfunction update() ไว้มาร์กจุด * actor ที่มีการเดิน 
+8. ใน flowchart จะเห็นว่ามีการ random holes, actor, hat ตั้งแต่ต้นใน function เดียวกัน แต่พอมาลองโค้ดแล้วเจอปัญหาที่ว่า ถ้าใส่ actor ก่อนที่จะสร้าง instance จะเจอปัญหาว่าต้องมานั่ง track actor ว่าอยู่ตรง positionRow positionCol ไหนแล้วมันยุ่งยากในการtrack เลยตัดสินใจ เอา random actor หลังจากที่สร้าง instance เสร็จ
 
 _Notes:_<br>
 _- You can attach flowcharts, diagrams, and images as needed._<br>
